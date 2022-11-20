@@ -70,7 +70,8 @@ equalsButton.addEventListener("click",(e)=>{
 
 
 function addArray(x){
-
+    
+    tempIndex = inputArray.length-1;
 
     if(inputArray.length===0) {
         if(!operations.includes(x)){
@@ -80,8 +81,6 @@ function addArray(x){
 
 
     else if(!operations.includes(x)){
-        
-        tempIndex = inputArray.length-1;
 
         if(!operations.includes(inputArray[tempIndex])){
             inputArray[tempIndex] += x;
@@ -93,7 +92,10 @@ function addArray(x){
     }
 
     else if(operations.includes(x)){
-        inputArray.push(x);
+        if(!operations.includes(inputArray[tempIndex])){
+            inputArray.push(x);
+        }
+        
     }
     
 
