@@ -25,8 +25,26 @@ const buttonsDictionary = {
     "add":"+",
     "subtract":"-",
     "multiply":"*"
-
 };
+
+const numpadKeyDict = {
+    "Numpad7":"7",
+    "Numpad8":"8",
+    "Numpad9":"9",
+    "Numpad4":"4",
+    "Numpad5":"5",
+    "Numpad6":"6",
+    "Numpad1":"1",
+    "Numpad2":"2",
+    "Numpad3":"3",
+    "Numpad0":"0",
+    "NumpadDecimal":".",
+    "NumpadDivide":"÷",
+    "NumpadAdd":"+",
+    "NumpadSubtract":"-",
+    "NumpadMultiply":"*"
+}
+
 
 for (let key in buttonsDictionary){
 
@@ -41,9 +59,61 @@ for (let key in buttonsDictionary){
 }
 
 
-deleteButton.addEventListener("click",(e)=>{
-    inputArray.pop();
-    inputScreen.innerHTML=printOperationsArray(inputArray)
+document.addEventListener('keyup', (e) => {
+
+    let code = e.code;
+    if(numpadKeyDict.hasOwnProperty(code)){
+        addArray(numpadKeyDict[code]);
+
+        inputScreen.innerHTML=printOperationsArray(inputArray);
+    }
+    else if(code==="Backspace"){
+        let a;
+        if(inputArray.length>0){
+            a =inputArray.pop();
+            
+            if(a.length>1){
+                a=a.slice(0,a.length-1);
+                inputArray.push(a);
+            }
+            inputScreen.innerHTML=printOperationsArray(inputArray)
+        }
+    }else if(code==="Delete"){
+        inputArray=[];
+        inputScreen.innerHTML="";
+        resultScreen.innerHTML="";
+    }else if(code==="Enter" || code==="NumpadEnter"){
+        result  = compute(inputArray);
+
+        if(result!=="Error"){
+            inputArray = [result.toString()]; 
+            if(result === 0){
+                inputArray=[];
+                result=0;
+            }
+        }
+
+        resultScreen.innerHTML= result;
+    }else{
+        console.log(e);
+    }
+
+  });
+
+
+
+deleteButton.addEventListener("click",(e)=>{    
+    let a;
+    if(inputArray.length>0){
+        a =inputArray.pop();
+        
+        if(a.length>1){
+            a=a.slice(0,a.length-1);
+            inputArray.push(a);
+        }
+        inputScreen.innerHTML=printOperationsArray(inputArray)
+    }
+   
 })
 
 clearButton.addEventListener("click", (e)=>{
